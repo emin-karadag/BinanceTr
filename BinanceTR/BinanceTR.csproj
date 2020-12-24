@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Mehmet Emin KARADAĞ</Authors>
+    <Company>Mehmet Emin KARADAĞ</Company>
+    <Description>BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirlen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.</Description>
+    <Copyright>Tüm hakları saklıdır.</Copyright>
+    <PackageProjectUrl>https://github.com/emin-karadag/BinanceTr</PackageProjectUrl>
+    <PackageIcon>BinanceTR-Logo.png</PackageIcon>
+    <RepositoryUrl>https://github.com/emin-karadag/BinanceTr</RepositoryUrl>
+    <PackageTags>binance, binancetr, bitcoin, kripto, kripto para, binance c#, c# binance, cryptocurrency</PackageTags>
+    <PackageReleaseNotes>BinanceTR borasında kullanılmak üzere temel fonksionlar hazırlandı.
+- TestConnectivityAsync
+- GetSymbolsAsync
+- GetOrderBookAsync
+- GetRecentTradesAsync
+- GetAggregateTradesAsync
+- GetKlinesAsync
+- GetAccountInformationAsync
+- GetAssetIformationAsync
+- PostNewLimitOrderAsync
+- PostBuyMarketOrderAsync
+- PostSellMarketOrderAsync
+- PostStopLimitOrderAsync
+- GetOrderByIdAsync
+- CancelOrderByIdAsync
+- GetAllOrdersAsync
+- GetAllOpenOrdersAsync
+- GetAllOpenBuyOrdersAsync
+- GetAllOpenSellOrdersAsync</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="BinanceTR-Logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
