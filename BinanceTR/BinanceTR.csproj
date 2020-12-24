@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <Authors>Mehmet Emin KARADAĞ</Authors>
     <Company>Mehmet Emin KARADAĞ</Company>
-    <Description>BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirlen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.</Description>
+    <Description>BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirilen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.</Description>
     <Copyright>Tüm hakları saklıdır.</Copyright>
     <PackageProjectUrl>https://github.com/emin-karadag/BinanceTr</PackageProjectUrl>
     <PackageIcon>BinanceTR-Logo.png</PackageIcon>

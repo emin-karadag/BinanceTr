@@ -1,9 +1,8 @@
-![BinanceTr](binance-tr-logo.png)
+![BinanceTr](https://github.com/emin-karadag/BinanceTr/blob/main/BinanceTR/BinanceTR-Logo.png?raw=true)
 
 ## BinanceTR C# API
-BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirlen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.
+BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirilen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.
 
-<img src="./BinanceTR-Logo.png" width="128px">
 
 Bu kütüphane sadece [**Binance TR**](https://www.trbinance.com/) borsasını destekler.
 Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs/) referans alınarak C# programlama dili ile Binance TR için özel uygulama geliştirmek isteyenler için geliştirilmiştir.
@@ -55,9 +54,9 @@ using BinanceTR.Business.Abstract;
 
  private readonly IBinanceTrService _binanceTrService;
  public Test(IBinanceTrService binanceTrService)
- 	{
-		_binanceTrService = binanceTrService;
-	  }
+ {
+ 	_binanceTrService = binanceTrService;
+ }
 ```
 
 ------------
@@ -66,10 +65,10 @@ using BinanceTR.Business.Abstract;
 **Sunucuyu test edin:**
 ```csharp
 var testResult = await _binanceTrService.TestConnectivityAsync().ConfigureAwait(false);
-            if (!testResult.Success)
-            {
-                Console.WriteLine(testResult.Message);
-            }
+if (!testResult.Success)
+{
+	Console.WriteLine(testResult.Message);
+}
 ```
 
 ------------
@@ -86,8 +85,8 @@ var symbolInfos = symbolResult.Data.SymbolData;
 ## Bağış Yap
 Kütüphaneyi kullanıp beğendiyseniz destek olmak amaçlı bağışta bulunabilirsiniz. Aşağıda Bitcoin ve Ethereum için cüzdan adreslerim yer almaktadır.
 
-<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="42px"> -> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
+<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="36px"> -> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
 
-<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="42px"> -> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="36px"> -> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
 
-<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="32px"> -> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="28px"> -> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
