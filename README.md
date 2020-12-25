@@ -236,8 +236,8 @@ if (orderResult.Success)
 ## Bağış Yap
 Kütüphaneyi kullanıp beğendiyseniz destek olmak amaçlı bağışta bulunabilirsiniz. Aşağıda Bitcoin ve Ethereum için cüzdan adreslerim yer almaktadır.
 
-<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="36px"> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
+<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="24px"> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
 
-<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="36px"> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="24px"> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
 
-<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="28px"> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="22px"> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
