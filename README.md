@@ -240,4 +240,4 @@ Kütüphaneyi kullanıp beğendiyseniz destek olmak amaçlı bağışta bulunabi
 
 <img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="24px"> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
 
-<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="22px"> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="18px"> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
