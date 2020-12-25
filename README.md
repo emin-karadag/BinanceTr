@@ -80,13 +80,164 @@ var symbolResult = await _binanceTrService.GetSymbolsAsync().ConfigureAwait(fals
 var symbolInfos = symbolResult.Data.SymbolData;
 ```
 
+
 > Yukarıdaki örnekler RestAPI'nin halka açık fonksiyonlarının kullanımına örnek olarak verilmiştir. Daha fazlası için kütüphaneyi indirip kullanabilirsiniz.
+
+## Örnek Kullanım (Özel İşlemler)
+```csharp
+using BinanceTR.Business.Abstract;
+using BinanceTR.Models;
+
+ private readonly IBinanceTrService _binanceTrService;
+ public Test(IBinanceTrService binanceTrService)
+ {
+ 	_binanceTrService = binanceTrService;
+ }
+```
+
+------------
+
+
+**1. Limit tipinde yeni bir sipariş gönderin:**
+Limit fiyatından yeni bir alış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.PostNewLimitOrderAsync(_options, "BTC_TRY", OrderSideEnum.BUY, 0.000015M, 175000).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+------------
+
+
+Limit fiyatından yeni bir satış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.PostNewLimitOrderAsync(_options, "BTC_TRY", OrderSideEnum.SELL, 0.000015M, 200000).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+------------
+
+
+**2. Market tipinde yeni bir sipariş gönderin:**
+Market fiyatından yeni bir alış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.PostBuyMarketOrderAsync(_options, "BTC_TRY", 10).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+------------
+
+Market fiyatından yeni bir satış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.PostSellMarketOrderAsync(_options, "BTC_TRY", 10).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+
+**3. Zarar - Durdur (Stop) siparişleri gönderin:**
+Zarar - Durdur (Stop) siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult =  await _binanceTrService.PostStopLimitOrderAsync(_options, "BTC_TRY", OrderSideEnum.SELL, 0.000015M, 150000, 150000).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+**4. Siparişlerinizi iptal edin:**
+Açmış olduğunuz siparişlerinizi iptal etmek için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.CancelOrderByIdAsync(_options, 123456).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+
+**5. Tüm siparişlerinizi iptal edin:**
+Bir sembole ait açmış olduğunuz tüm siparişleri iptal etmek için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.CancelOrderByIdAsync(_options, 123456).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+
+**6. Sipariş detayını görüntüleyin:**
+Açmış olduğunuz siparişe ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.GetOrderByIdAsync(_options, 123456).ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+**7. Tüm siparişlerinizi görüntüleyin:**
+Bir sembole ait tüm siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.GetAllOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+**8. Tüm açık siparişlerinizi görüntüleyin:**
+Bir sembole ait tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.GetAllOpenOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+
+**9. Açık siparişlerinizi görüntüleyin:**
+Bir sembole ait AL (BUY) tipindeki tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.GetAllOpenBuyOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+
+**10. Açık siparişlerinizi görüntüleyin:**
+Bir sembole ait SAT (SELL) tipindeki tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
+```csharp
+var orderResult = await _binanceTrService.GetAllOpenSellOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
+if (orderResult.Success)
+{
+	// ....
+}
+```
+
+> Yukarıdaki örnekler RestAPI'nin özel fonksiyonlarının kullanımına örnek olarak verilmiştir. Özel fonksiyonları kullanabilmek için Binance TR üzerinden Api Key ve Secret Key oluşturmanız gerekmektedir. Daha fazlası için kütüphaneyi indirip kullanabilirsiniz.
+
+------------
 
 ## Bağış Yap
 Kütüphaneyi kullanıp beğendiyseniz destek olmak amaçlı bağışta bulunabilirsiniz. Aşağıda Bitcoin ve Ethereum için cüzdan adreslerim yer almaktadır.
 
-<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="36px"> -> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
+<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="36px"> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
 
-<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="36px"> -> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="36px"> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
 
-<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="28px"> -> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="28px"> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
