@@ -13,14 +13,14 @@ namespace BinanceTR.Models.Order
         public string Msg { get; set; }
 
         [JsonPropertyName("data")]
-        public CancelOrderResult Data { get; set; }
+        public CancelOrderData Data { get; set; }
 
         [JsonPropertyName("timestamp")]
         [JsonConverter(typeof(StringToLongConvertor))]
         public long Timestamp { get; set; }
     }
 
-    public class CancelOrderResult
+    public class CancelOrderData
     {
         [JsonPropertyName("orderId")]
         [JsonConverter(typeof(StringToLongConvertor))]

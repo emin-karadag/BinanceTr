@@ -12,13 +12,13 @@ namespace BinanceTR.Models.Order
         public string Msg { get; set; }
 
         [JsonPropertyName("data")]
-        public Data Data { get; set; }
+        public LimitOrderData LimitOrderData { get; set; }
 
         [JsonPropertyName("timestamp")]
         public long Timestamp { get; set; }
     }
 
-    public class Data
+    public class LimitOrderData
     {
         [JsonPropertyName("orderId")]
         public int OrderId { get; set; }

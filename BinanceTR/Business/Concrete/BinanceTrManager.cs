@@ -60,7 +60,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        private string CheckResult(string result)
+        private static string CheckResult(string result)
         {
             if (result != "[]" && result != "" && result.Contains("msg"))
             {
@@ -79,37 +79,37 @@ namespace BinanceTR.Business.Concrete
             return result;
         }
 
-        public async Task<IDataResult<TimeModel>> TestConnectivityAsync()
+        public async Task<IDataResult<long>> TestConnectivityAsync()
         {
             try
             {
                 var result = await SendRequestWithoutAuth("/open/v1/common/time", null, true).ConfigureAwait(false);
                 var data = CheckResult(result);
                 var model = JsonSerializer.Deserialize<TimeModel>(data);
-                return new SuccessDataResult<TimeModel>(model);
+                return new SuccessDataResult<long>(model.Timestamp, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<TimeModel>(ex.Message);
+                return new ErrorDataResult<long>(ex.Message);
             }
         }
 
-        public async Task<IDataResult<SymbolModel>> GetSymbolsAsync()
+        public async Task<IDataResult<List<SymbolDataList>>> GetSymbolsAsync()
         {
             try
             {
                 var result = await SendRequestWithoutAuth("/open/v1/common/symbols", null, true).ConfigureAwait(false);
                 var data = CheckResult(result);
                 var model = JsonSerializer.Deserialize<SymbolModel>(data);
-                return new SuccessDataResult<SymbolModel>(model);
+                return new SuccessDataResult<List<SymbolDataList>>(model.SymbolData.List, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<SymbolModel>(ex.Message);
+                return new ErrorDataResult<List<SymbolDataList>>(ex.Message);
             }
         }
 
-        public async Task<IDataResult<OrderBookModel>> GetOrderBookAsync(string symbol, int limit = 100)
+        public async Task<IDataResult<OrderBookData>> GetOrderBookAsync(string symbol, int limit = 100)
         {
             try
             {
@@ -118,17 +118,17 @@ namespace BinanceTR.Business.Concrete
                     { "symbol", symbol },
                     { "limit", limit.ToString()}
                 };
-                var result = await SendRequestWithoutAuth("/depth", parameters).ConfigureAwait(false);
+                var result = await SendRequestWithoutAuth("/open/v1/market/depth", parameters, true).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<OrderBookModel>(data);
+                    return new ErrorDataResult<OrderBookData>(data);
 
                 var model = JsonSerializer.Deserialize<OrderBookModel>(result);
-                return new SuccessDataResult<OrderBookModel>(model);
+                return new SuccessDataResult<OrderBookData>(model.Data, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<OrderBookModel>(ex.Message);
+                return new ErrorDataResult<OrderBookData>(ex.Message);
             }
         }
 
@@ -225,7 +225,7 @@ namespace BinanceTR.Business.Concrete
                     return new ErrorDataResult<List<AccountAsset>>(data);
 
                 var model = JsonSerializer.Deserialize<AccountInformationModel>(result);
-                return new SuccessDataResult<List<AccountAsset>>(model.AccountData.AccountAssets);
+                return new SuccessDataResult<List<AccountAsset>>(model.AccountData.AccountAssets, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
@@ -248,7 +248,7 @@ namespace BinanceTR.Business.Concrete
                     return new ErrorDataResult<AssetInformationData>(data);
 
                 var model = JsonSerializer.Deserialize<AssetInformationModel>(result);
-                return new SuccessDataResult<AssetInformationData>(model.Data);
+                return new SuccessDataResult<AssetInformationData>(model.Data, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
@@ -256,7 +256,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<LimitOrderModel>> PostNewLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal price)
+        public async Task<IDataResult<LimitOrderData>> PostNewLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal price)
         {
             try
             {
@@ -272,18 +272,18 @@ namespace BinanceTR.Business.Concrete
                 var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<LimitOrderModel>(data);
+                    return new ErrorDataResult<LimitOrderData>(data);
 
                 var model = JsonSerializer.Deserialize<LimitOrderModel>(result);
-                return new SuccessDataResult<LimitOrderModel>(model);
+                return new SuccessDataResult<LimitOrderData>(model.LimitOrderData, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<LimitOrderModel>(ex.Message);
+                return new ErrorDataResult<LimitOrderData>(ex.Message);
             }
         }
 
-        public async Task<IDataResult<PostOrderModel>> PostBuyMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQty)
+        public async Task<IDataResult<PostOrderModelData>> PostBuyMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQty)
         {
             try
             {
@@ -298,18 +298,18 @@ namespace BinanceTR.Business.Concrete
                 var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<PostOrderModel>(data);
+                    return new ErrorDataResult<PostOrderModelData>(data);
 
                 var model = JsonSerializer.Deserialize<PostOrderModel>(result);
-                return new SuccessDataResult<PostOrderModel>(model);
+                return new SuccessDataResult<PostOrderModelData>(model.Data, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<PostOrderModel>(ex.Message);
+                return new ErrorDataResult<PostOrderModelData>(ex.Message);
             }
         }
 
-        public async Task<IDataResult<PostOrderModel>> PostSellMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQuoteQty)
+        public async Task<IDataResult<PostOrderModelData>> PostSellMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQuoteQty)
         {
             try
             {
@@ -324,18 +324,18 @@ namespace BinanceTR.Business.Concrete
                 var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<PostOrderModel>(data);
+                    return new ErrorDataResult<PostOrderModelData>(data);
 
                 var model = JsonSerializer.Deserialize<PostOrderModel>(result);
-                return new SuccessDataResult<PostOrderModel>(model);
+                return new SuccessDataResult<PostOrderModelData>(model.Data, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<PostOrderModel>(ex.Message);
+                return new ErrorDataResult<PostOrderModelData>(ex.Message);
             }
         }
 
-        public async Task<IDataResult<PostOrderModel>> PostStopLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal limitPrice, decimal stopPrice)
+        public async Task<IDataResult<PostOrderModelData>> PostStopLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal limitPrice, decimal stopPrice)
         {
             try
             {
@@ -352,18 +352,18 @@ namespace BinanceTR.Business.Concrete
                 var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<PostOrderModel>(data);
+                    return new ErrorDataResult<PostOrderModelData>(data);
 
                 var model = JsonSerializer.Deserialize<PostOrderModel>(result);
-                return new SuccessDataResult<PostOrderModel>(model);
+                return new SuccessDataResult<PostOrderModelData>(model.Data, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<PostOrderModel>(ex.Message);
+                return new ErrorDataResult<PostOrderModelData>(ex.Message);
             }
         }
 
-        public async Task<IDataResult<OrderDetailModel>> GetOrderByIdAsync(BinanceTrOptions options, long orderId)
+        public async Task<IDataResult<OrderDetailData>> GetOrderByIdAsync(BinanceTrOptions options, long orderId)
         {
             try
             {
@@ -375,18 +375,18 @@ namespace BinanceTR.Business.Concrete
                 var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders/detail", options, parameters).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<OrderDetailModel>(data);
+                    return new ErrorDataResult<OrderDetailData>(data);
 
                 var model = JsonSerializer.Deserialize<OrderDetailModel>(result);
-                return new SuccessDataResult<OrderDetailModel>(model);
+                return new SuccessDataResult<OrderDetailData>(model.Data, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<OrderDetailModel>(ex.Message);
+                return new ErrorDataResult<OrderDetailData>(ex.Message);
             }
         }
 
-        public async Task<IDataResult<CancelOrderModel>> CancelOrderByIdAsync(BinanceTrOptions options, long orderId)
+        public async Task<IDataResult<CancelOrderData>> CancelOrderByIdAsync(BinanceTrOptions options, long orderId)
         {
             try
             {
@@ -398,14 +398,14 @@ namespace BinanceTR.Business.Concrete
                 var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders/cancel", options, parameters).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<CancelOrderModel>(data);
+                    return new ErrorDataResult<CancelOrderData>(data);
 
                 var model = JsonSerializer.Deserialize<CancelOrderModel>(result);
-                return new SuccessDataResult<CancelOrderModel>(model);
+                return new SuccessDataResult<CancelOrderData>(model.Data, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<CancelOrderModel>(ex.Message);
+                return new ErrorDataResult<CancelOrderData>(ex.Message);
             }
         }
 
@@ -425,7 +425,7 @@ namespace BinanceTR.Business.Concrete
                     return new ErrorDataResult<List<OpenOrderList>>(data);
 
                 var model = JsonSerializer.Deserialize<AllOrdersModel>(result);
-                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List);
+                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
@@ -450,7 +450,7 @@ namespace BinanceTR.Business.Concrete
                     return new ErrorDataResult<List<OpenOrderList>>(data);
 
                 var model = JsonSerializer.Deserialize<AllOrdersModel>(result);
-                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List);
+                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
@@ -476,7 +476,7 @@ namespace BinanceTR.Business.Concrete
                     return new ErrorDataResult<List<OpenOrderList>>(data);
 
                 var model = JsonSerializer.Deserialize<AllOrdersModel>(result);
-                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List);
+                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List, model.Msg, model.Code);
             }
             catch (Exception ex)
             {
@@ -502,7 +502,7 @@ namespace BinanceTR.Business.Concrete
                     return new ErrorDataResult<List<OpenOrderList>>(data);
 
                 var model = JsonSerializer.Deserialize<AllOrdersModel>(result);
-                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List);
+                return new SuccessDataResult<List<OpenOrderList>>(model.Data.List, model.Msg, model.Code);
             }
             catch (Exception ex)
             {

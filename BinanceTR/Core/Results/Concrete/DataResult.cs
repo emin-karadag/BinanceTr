@@ -4,7 +4,7 @@ namespace BinanceTR.Core.Results.Concrete
 {
     public class DataResult<T> : Result, IDataResult<T>
     {
-        public DataResult(T data, bool success, string message) : base(success, message)
+        public DataResult(T data, bool success, string message, long code) : base(success, message, code)
         {
             Data = data;
         }

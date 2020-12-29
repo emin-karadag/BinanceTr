@@ -59,7 +59,6 @@ namespace BinanceTR.Core.Utilities
             //(parameters ??= new Dictionary<string, string>()).Add("recvWindow", "60000");
             parameters.Add("timestamp", GetTimestamp().ToString(CultureInfo.InvariantCulture));
 
-
             if (!string.IsNullOrEmpty(apiSecret))
                 parameters.Add("signature", CreateHmac(apiSecret, parameters == null ? null : new FormUrlEncodedContent(parameters)));
             return parameters;

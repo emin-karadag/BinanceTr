@@ -24,10 +24,10 @@ namespace BinanceTR.Models.Common
     public class SymbolData
     {
         [JsonPropertyName("list")]
-        public List<List> List { get; set; }
+        public List<SymbolDataList> List { get; set; }
     }
 
-    public class List
+    public class SymbolDataList
     {
         [JsonPropertyName("type")]
         [JsonConverter(typeof(StringToIntConvertor))]

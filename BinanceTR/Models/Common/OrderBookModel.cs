@@ -6,6 +6,21 @@ namespace BinanceTR.Models.Common
 {
     public class OrderBookModel : IBinanceTrModel
     {
+        [JsonPropertyName("code")]
+        public int Code { get; set; }
+
+        [JsonPropertyName("msg")]
+        public string Msg { get; set; }
+
+        [JsonPropertyName("data")]
+        public OrderBookData Data { get; set; }
+
+        [JsonPropertyName("timestamp")]
+        public long Timestamp { get; set; }
+    }
+
+    public class OrderBookData
+    {
         [JsonPropertyName("lastUpdateId")]
         public int LastUpdateId { get; set; }
 
