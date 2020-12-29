@@ -21,11 +21,11 @@ Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs
 - Hataların daha kolay çözülebilmesi için Binance TR sunucularının geriye döndürdüğü **hata kodları** ve **hata mesajları** kullanılır.
 
 ## Başlangıç
-Özel API uç noktalarını kullanabilmek için Binance TR üzerinden hesap oluşturmanız gerekmektedir. Eğer hesabınız yok ise [buraya tıklayarak](https://www.trbinance.com/account/signup?ref=W919G4P8) referansım üzerinden kaydolabilir, böylece alım-satım işlemlerinde **%10 komisyon indirimin** kazanabilirsiniz.
+Özel API uç noktalarını kullanabilmek için Binance TR üzerinden hesap oluşturmanız gerekmektedir. Eğer hesabınız yok ise [buraya tıklayarak](https://www.trbinance.com/account/signup?ref=W919G4P8) referansım üzerinden kaydolabilir, böylece alım-satım işlemlerinde **%10 komisyon indirimi** kazanabilirsiniz.
 > Halka açık piyasa verilerine erişmek için Binance TR hesabı gerekli değildir!
 
 ## Kurulum
-Bu kütüphane NuGet'te mevcuttur, indirmek için çekinmeyin. ([https://www.nuget.org/packages/BinanceTR/1.0.0](https://www.nuget.org/packages/BinanceTR/1.0.0 "https://www.nuget.org/packages/BinanceTR/1.0.0"))
+Bu kütüphane NuGet'te mevcuttur, indirmek için çekinmeyin. ([https://www.nuget.org/packages/BinanceTR/1.0.1](https://www.nuget.org/packages/BinanceTR/1.0.1 "https://www.nuget.org/packages/BinanceTR/1.0.1"))
 
 **NuGet PM**
 ```
