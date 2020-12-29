@@ -21,7 +21,7 @@ Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs
 - Hataların daha kolay çözülebilmesi için Binance TR sunucularının geriye döndürdüğü **hata kodları** ve **hata mesajları** kullanılır.
 
 ## Başlangıç
-Özel API uç noktalarını kullanabilmek için Binance TR üzerinden hesap oluşturmanız gerekmektedir. Eğer hesabınız yok ise [Buraya tıklayarak](https://www.trbinance.com/account/signup?ref=W919G4P8) referansım üzerinden kaydolabilir, böylece alım-satım işlemlerinde **%10 komisyon indiriminden** faydalanabilirsiniz.
+Özel API uç noktalarını kullanabilmek için Binance TR üzerinden hesap oluşturmanız gerekmektedir. Eğer hesabınız yok ise [buraya tıklayarak](https://www.trbinance.com/account/signup?ref=W919G4P8) referansım üzerinden kaydolabilir, böylece alım-satım işlemlerinde **%10 komisyon indirimin** kazanabilirsiniz.
 > Halka açık piyasa verilerine erişmek için Binance TR hesabı gerekli değildir!
 
 ## Kurulum
@@ -165,19 +165,7 @@ if (orderResult.Success)
 }
 ```
 
-
-**5. Tüm siparişlerinizi iptal edin:**
-Bir sembole ait açmış olduğunuz tüm siparişleri iptal etmek için aşağıdaki örneği kullanabilirsiniz.
-```csharp
-var orderResult = await _binanceTrService.CancelOrderByIdAsync(_options, 123456).ConfigureAwait(false);
-if (orderResult.Success)
-{
-	// ....
-}
-```
-
-
-**6. Sipariş detayını görüntüleyin:**
+**5. Sipariş detayını görüntüleyin:**
 Açmış olduğunuz siparişe ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
 var orderResult = await _binanceTrService.GetOrderByIdAsync(_options, 123456).ConfigureAwait(false);
@@ -187,7 +175,7 @@ if (orderResult.Success)
 }
 ```
 
-**7. Tüm siparişlerinizi görüntüleyin:**
+**6. Tüm siparişlerinizi görüntüleyin:**
 Bir sembole ait tüm siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
 var orderResult = await _binanceTrService.GetAllOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
@@ -197,7 +185,7 @@ if (orderResult.Success)
 }
 ```
 
-**8. Tüm açık siparişlerinizi görüntüleyin:**
+**7. Tüm açık siparişlerinizi görüntüleyin:**
 Bir sembole ait tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
 var orderResult = await _binanceTrService.GetAllOpenOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
@@ -208,7 +196,7 @@ if (orderResult.Success)
 ```
 
 
-**9. Açık siparişlerinizi görüntüleyin:**
+**8. Açık siparişlerinizi görüntüleyin:**
 Bir sembole ait AL (BUY) tipindeki tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
 var orderResult = await _binanceTrService.GetAllOpenBuyOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
@@ -219,16 +207,6 @@ if (orderResult.Success)
 ```
 
 
-**10. Açık siparişlerinizi görüntüleyin:**
-Bir sembole ait SAT (SELL) tipindeki tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
-```csharp
-var orderResult = await _binanceTrService.GetAllOpenSellOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
-if (orderResult.Success)
-{
-	// ....
-}
-```
-
 > Yukarıdaki örnekler RestAPI'nin özel fonksiyonlarının kullanımına örnek olarak verilmiştir. Özel fonksiyonları kullanabilmek için Binance TR üzerinden Api Key ve Secret Key oluşturmanız gerekmektedir. Daha fazlası için kütüphaneyi indirip kullanabilirsiniz.
 
 ------------
@@ -236,8 +214,8 @@ if (orderResult.Success)
 ## Bağış Yap
 Kütüphaneyi kullanıp beğendiyseniz destek olmak amaçlı bağışta bulunabilirsiniz. Aşağıda Bitcoin ve Ethereum için cüzdan adreslerim yer almaktadır.
 
-<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="36px"> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
+<img src="https://cdn.worldvectorlogo.com/logos/tether-1.svg" width="24px"> **Tether (USDT) - TRC20:** `TC3ruh9qWbwAnCHGEkschnmcYUNxGumHJS`
 
-<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="36px"> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/bitcoin.svg" width="24px"> **Bitcoin (BTC) - ERC20:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
 
-<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="28px"> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
+<img src="https://cdn.worldvectorlogo.com/logos/ethereum-1.svg" width="18px"> **Ethereum - ETH:** `0x4a656a72fada0ccdef737ad8cc2e39686af5efbe`
