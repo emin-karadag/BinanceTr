@@ -11,7 +11,7 @@ Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs
     MIT License
 
 ## Özellikleri
-- NuGet aracılığıyla yükleyebilme. ([BinanceTR](https://www.nuget.org/packages/BinanceTR/1.0.0))
+- NuGet aracılığıyla yükleyebilme. ([BinanceTR](https://www.nuget.org/packages/BinanceTR/1.0.1))
 - .NET 5 desteği. (Linux/MacOS uyumluluğu)
 - RestAPI, [Binance TR resmi dokümanının](https://www.trbinance.com/apidocs/) büyük çoğunluğunu destekler.
 	- Aktif olarak yeni özellikler eklenmeye devam edilecek.
