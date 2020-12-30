@@ -29,12 +29,12 @@ Bu kütüphane NuGet'te mevcuttur, indirmek için çekinmeyin. ([https://www.nug
 
 **NuGet PM**
 ```
-Install-Package BinanceTR -Version 1.0.0
+Install-Package BinanceTR -Version 1.0.1
 ```
 
 **dotnet cli**
 ```
-dotnet add package BinanceTR --version 1.0.0
+dotnet add package BinanceTR --version 1.0.1
 ```
 ## Yol Haritası
 Önümüzdeki süreçte `BinanceTR` kütüphanesine yeni özelliklerin eklenmesi ve genişletilmesi için çalışmalar yapılacaktır. Aşağıdaki tabloda üzerinde çalıştığımız yeni özellikleri görebilirsiniz.
