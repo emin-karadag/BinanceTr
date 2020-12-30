@@ -1,7 +1,7 @@
 ![BinanceTr](https://github.com/emin-karadag/BinanceTr/blob/main/BinanceTR/BinanceTR-Logo.png?raw=true)
 
 ## BinanceTR C# API
-BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirilen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.
+BinanceTR borsasında, alım-satım yapmak veya piyasa verilerini çekmek için geliştirilen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.
 
 
 Bu kütüphane sadece [**Binance TR**](https://www.trbinance.com/) borsasını destekler.
