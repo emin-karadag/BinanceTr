@@ -49,6 +49,16 @@ dotnet add package BinanceTR --version 1.0.1
 | Para Yatırma Adresi (Deposit Address)       |                | |
 
 ## Örnek Kullanım (Halka Açık İşlemler)
+
+**Bağımlılık Enjeksiyonu (Dependency Injection):**
+```csharp
+using BinanceTR.Business.Abstract;
+using BinanceTR.Business.Concrete;
+
+services.AddSingleton<IBinanceTrService, BinanceTrManager>();
+```
+
+**Constructor'da tanımalama:**
 ```csharp
 using BinanceTR.Business.Abstract;
 
@@ -84,15 +94,33 @@ var symbolInfos = symbolResult.Data.SymbolData;
 > Yukarıdaki örnekler RestAPI'nin halka açık fonksiyonlarının kullanımına örnek olarak verilmiştir. Daha fazlası için kütüphaneyi indirip kullanabilirsiniz.
 
 ## Örnek Kullanım (Özel İşlemler)
+
+**Bağımlılık Enjeksiyonu (Dependency Injection):**
 ```csharp
 using BinanceTR.Business.Abstract;
-using BinanceTR.Models;
+using BinanceTR.Business.Concrete;
+
+services.AddSingleton<IBinanceTrService, BinanceTrManager>();
+```
+
+**Constructor'da tanımalama:**
+```csharp
+using BinanceTR.Business.Abstract;
 
  private readonly IBinanceTrService _binanceTrService;
  public Test(IBinanceTrService binanceTrService)
  {
  	_binanceTrService = binanceTrService;
  }
+```
+
+**Options tanımlama:**
+```csharp
+var options = new BinanceTrOptions
+{
+	ApiKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+	ApiSecret = "xxxxxxxxxxxxxxxxxxxxxxxx"
+};
 ```
 
 ------------
