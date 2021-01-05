@@ -129,7 +129,7 @@ var options = new BinanceTrOptions
 **1. Limit tipinde yeni bir sipariş gönderin:**
 Limit fiyatından yeni bir alış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.PostNewLimitOrderAsync(_options, "BTC_TRY", OrderSideEnum.BUY, 0.000015M, 175000).ConfigureAwait(false);
+var orderResult = await _binanceTrService.PostNewLimitOrderAsync(options, "BTC_TRY", OrderSideEnum.BUY, 0.000015M, 175000).ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -141,7 +141,7 @@ if (orderResult.Success)
 
 Limit fiyatından yeni bir satış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.PostNewLimitOrderAsync(_options, "BTC_TRY", OrderSideEnum.SELL, 0.000015M, 200000).ConfigureAwait(false);
+var orderResult = await _binanceTrService.PostNewLimitOrderAsync(options, "BTC_TRY", OrderSideEnum.SELL, 0.000015M, 200000).ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -154,7 +154,7 @@ if (orderResult.Success)
 **2. Market tipinde yeni bir sipariş gönderin:**
 Market fiyatından yeni bir alış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.PostBuyMarketOrderAsync(_options, "BTC_TRY", 10).ConfigureAwait(false);
+var orderResult = await _binanceTrService.PostBuyMarketOrderAsync(options, "BTC_TRY", 10).ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -165,7 +165,7 @@ if (orderResult.Success)
 
 Market fiyatından yeni bir satış siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.PostSellMarketOrderAsync(_options, "BTC_TRY", 10).ConfigureAwait(false);
+var orderResult = await _binanceTrService.PostSellMarketOrderAsync(options, "BTC_TRY", 10).ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -176,7 +176,7 @@ if (orderResult.Success)
 **3. Zarar - Durdur (Stop) siparişleri gönderin:**
 Zarar - Durdur (Stop) siparişi göndermek için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult =  await _binanceTrService.PostStopLimitOrderAsync(_options, "BTC_TRY", OrderSideEnum.SELL, 0.000015M, 150000, 150000).ConfigureAwait(false);
+var orderResult =  await _binanceTrService.PostStopLimitOrderAsync(options, "BTC_TRY", OrderSideEnum.SELL, 0.000015M, 150000, 150000).ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -186,7 +186,7 @@ if (orderResult.Success)
 **4. Siparişlerinizi iptal edin:**
 Açmış olduğunuz siparişlerinizi iptal etmek için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.CancelOrderByIdAsync(_options, 123456).ConfigureAwait(false);
+var orderResult = await _binanceTrService.CancelOrderByIdAsync(options, 123456).ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -196,7 +196,7 @@ if (orderResult.Success)
 **5. Sipariş detayını görüntüleyin:**
 Açmış olduğunuz siparişe ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.GetOrderByIdAsync(_options, 123456).ConfigureAwait(false);
+var orderResult = await _binanceTrService.GetOrderByIdAsync(options, 123456).ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -206,7 +206,7 @@ if (orderResult.Success)
 **6. Tüm siparişlerinizi görüntüleyin:**
 Bir sembole ait tüm siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.GetAllOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
+var orderResult = await _binanceTrService.GetAllOrdersAsync(options, "BTC_TRY").ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -216,7 +216,7 @@ if (orderResult.Success)
 **7. Tüm açık siparişlerinizi görüntüleyin:**
 Bir sembole ait tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.GetAllOpenOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
+var orderResult = await _binanceTrService.GetAllOpenOrdersAsync(options, "BTC_TRY").ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
@@ -227,7 +227,7 @@ if (orderResult.Success)
 **8. Açık siparişlerinizi görüntüleyin:**
 Bir sembole ait AL (BUY) tipindeki tüm açık siparişlerinize ait detay bilgiyi almak için aşağıdaki örneği kullanabilirsiniz.
 ```csharp
-var orderResult = await _binanceTrService.GetAllOpenBuyOrdersAsync(_options, "BTC_TRY").ConfigureAwait(false);
+var orderResult = await _binanceTrService.GetAllOpenBuyOrdersAsync(options, "BTC_TRY").ConfigureAwait(false);
 if (orderResult.Success)
 {
 	// ....
