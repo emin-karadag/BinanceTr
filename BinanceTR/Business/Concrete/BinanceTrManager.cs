@@ -12,13 +12,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BinanceTR.Business.Concrete
 {
     public class BinanceTrManager : IBinanceTrService
     {
-        private async Task<string> SendRequestAsync(HttpMethod method, string url, BinanceTrOptions options, Dictionary<string, string> parameters = null)
+        private async Task<string> SendRequestAsync(HttpMethod method, string url, BinanceTrOptions options, Dictionary<string, string> parameters = null, CancellationToken ct = default)
         {
             try
             {
@@ -32,7 +33,7 @@ namespace BinanceTR.Business.Concrete
                 else
                     requestMessage.Content = new FormUrlEncodedContent(BinanceTrHelper.BuildRequest(options.ApiSecret, parameters));
 
-                var response = await httpClient.SendAsync(requestMessage).ConfigureAwait(false);
+                var response = await httpClient.SendAsync(requestMessage, ct).ConfigureAwait(false);
                 return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -41,7 +42,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        private static async Task<string> SendRequestWithoutAuth(string url, Dictionary<string, string> parameters = null, bool baseUrl = false)
+        private static async Task<string> SendRequestWithoutAuth(string url, Dictionary<string, string> parameters = null, bool baseUrl = false, CancellationToken ct = default)
         {
             try
             {
@@ -51,7 +52,7 @@ namespace BinanceTR.Business.Concrete
                 var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
                 requestMessage.RequestUri = new Uri(requestMessage.RequestUri.OriginalString + BinanceTrHelper.CreateQueryString(BinanceTrHelper.BuildRequest(null, parameters)));
 
-                var response = await httpClient.SendAsync(requestMessage).ConfigureAwait(false);
+                var response = await httpClient.SendAsync(requestMessage, ct).ConfigureAwait(false);
                 return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
@@ -79,11 +80,11 @@ namespace BinanceTR.Business.Concrete
             return result;
         }
 
-        public async Task<IDataResult<long>> TestConnectivityAsync()
+        public async Task<IDataResult<long>> TestConnectivityAsync(CancellationToken ct = default)
         {
             try
             {
-                var result = await SendRequestWithoutAuth("/open/v1/common/time", null, true).ConfigureAwait(false);
+                var result = await SendRequestWithoutAuth("/open/v1/common/time", null, true, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 var model = JsonSerializer.Deserialize<TimeModel>(data);
                 return new SuccessDataResult<long>(model.Timestamp, model.Msg, model.Code);
@@ -94,11 +95,11 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<SymbolDataList>>> GetSymbolsAsync()
+        public async Task<IDataResult<List<SymbolDataList>>> GetSymbolsAsync(CancellationToken ct = default)
         {
             try
             {
-                var result = await SendRequestWithoutAuth("/open/v1/common/symbols", null, true).ConfigureAwait(false);
+                var result = await SendRequestWithoutAuth("/open/v1/common/symbols", null, true, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 var model = JsonSerializer.Deserialize<SymbolModel>(data);
                 return new SuccessDataResult<List<SymbolDataList>>(model.SymbolData.List, model.Msg, model.Code);
@@ -109,7 +110,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<OrderBookData>> GetOrderBookAsync(string symbol, int limit = 100)
+        public async Task<IDataResult<OrderBookData>> GetOrderBookAsync(string symbol, int limit = 100, CancellationToken ct = default)
         {
             try
             {
@@ -118,7 +119,7 @@ namespace BinanceTR.Business.Concrete
                     { "symbol", symbol },
                     { "limit", limit.ToString()}
                 };
-                var result = await SendRequestWithoutAuth("/open/v1/market/depth", parameters, true).ConfigureAwait(false);
+                var result = await SendRequestWithoutAuth("/open/v1/market/depth", parameters, true, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<OrderBookData>(data);
@@ -132,7 +133,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<RecentTradesModel>>> GetRecentTradesAsync(string symbol, int limit = 500)
+        public async Task<IDataResult<List<RecentTradesModel>>> GetRecentTradesAsync(string symbol, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -141,7 +142,7 @@ namespace BinanceTR.Business.Concrete
                     { "symbol", symbol },
                     { "limit", limit.ToString()}
                 };
-                var result = await SendRequestWithoutAuth("/trades", parameters).ConfigureAwait(false);
+                var result = await SendRequestWithoutAuth("/trades", parameters, ct: ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<List<RecentTradesModel>>(data);
@@ -155,7 +156,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<AggregateTradesModel>>> GetAggregateTradesAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, int limit = 500)
+        public async Task<IDataResult<List<AggregateTradesModel>>> GetAggregateTradesAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -171,7 +172,7 @@ namespace BinanceTR.Business.Concrete
                     parameters["endTime"] = BinanceTrHelper.GetTimestamp(endTime.Value).ToString();
                 }
 
-                var result = await SendRequestWithoutAuth("/aggTrades", parameters).ConfigureAwait(false);
+                var result = await SendRequestWithoutAuth("/aggTrades", parameters, ct: ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<List<AggregateTradesModel>>(data);
@@ -185,7 +186,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<string>> GetKlinesAsync(string symbol, KLineIntervalEnum interval, DateTime? startTime = null, DateTime? endTime = null, int limit = 500)
+        public async Task<IDataResult<string>> GetKlinesAsync(string symbol, KLineIntervalEnum interval, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -202,7 +203,7 @@ namespace BinanceTR.Business.Concrete
                     parameters["endTime"] = BinanceTrHelper.GetTimestamp(endTime.Value).ToString();
                 }
 
-                var result = await SendRequestWithoutAuth("/klines", parameters).ConfigureAwait(false);
+                var result = await SendRequestWithoutAuth("/klines", parameters, ct: ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<string>(data);
@@ -215,11 +216,11 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<AccountAsset>>> GetAccountInformationAsync(BinanceTrOptions options)
+        public async Task<IDataResult<List<AccountAsset>>> GetAccountInformationAsync(BinanceTrOptions options, CancellationToken ct = default)
         {
             try
             {
-                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/account/spot", options).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/account/spot", options, ct: ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<List<AccountAsset>>(data);
@@ -233,7 +234,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<AssetInformationData>> GetAssetIformationAsync(BinanceTrOptions options, string assetName)
+        public async Task<IDataResult<AssetInformationData>> GetAssetIformationAsync(BinanceTrOptions options, string assetName, CancellationToken ct = default)
         {
             try
             {
@@ -242,7 +243,7 @@ namespace BinanceTR.Business.Concrete
                     { "asset", assetName }
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/account/spot/asset", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/account/spot/asset", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<AssetInformationData>(data);
@@ -256,7 +257,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<LimitOrderData>> PostNewLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal price)
+        public async Task<IDataResult<LimitOrderData>> PostNewLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal price, CancellationToken ct = default)
         {
             try
             {
@@ -269,7 +270,7 @@ namespace BinanceTR.Business.Concrete
                     { "price", price.ToString(CultureInfo.InvariantCulture) }
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<LimitOrderData>(data);
@@ -283,7 +284,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<PostOrderModelData>> PostBuyMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQty)
+        public async Task<IDataResult<PostOrderModelData>> PostBuyMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQty, CancellationToken ct = default)
         {
             try
             {
@@ -295,7 +296,7 @@ namespace BinanceTR.Business.Concrete
                     { "quoteOrderQty", origQty.ToString(CultureInfo.InvariantCulture) },
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<PostOrderModelData>(data);
@@ -309,7 +310,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<PostOrderModelData>> PostSellMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQuoteQty)
+        public async Task<IDataResult<PostOrderModelData>> PostSellMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQuoteQty, CancellationToken ct = default)
         {
             try
             {
@@ -321,7 +322,7 @@ namespace BinanceTR.Business.Concrete
                     { "quantity", origQuoteQty.ToString(CultureInfo.InvariantCulture) },
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<PostOrderModelData>(data);
@@ -335,7 +336,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<PostOrderModelData>> PostStopLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal limitPrice, decimal stopPrice)
+        public async Task<IDataResult<PostOrderModelData>> PostStopLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal limitPrice, decimal stopPrice, CancellationToken ct = default)
         {
             try
             {
@@ -349,7 +350,7 @@ namespace BinanceTR.Business.Concrete
                     { "price", limitPrice.ToString(CultureInfo.InvariantCulture) },
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<PostOrderModelData>(data);
@@ -363,7 +364,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<OrderDetailData>> GetOrderByIdAsync(BinanceTrOptions options, long orderId)
+        public async Task<IDataResult<OrderDetailData>> GetOrderByIdAsync(BinanceTrOptions options, long orderId, CancellationToken ct = default)
         {
             try
             {
@@ -372,7 +373,7 @@ namespace BinanceTR.Business.Concrete
                     { "orderId", orderId.ToString() }
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders/detail", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders/detail", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<OrderDetailData>(data);
@@ -386,7 +387,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<CancelOrderData>> CancelOrderByIdAsync(BinanceTrOptions options, long orderId)
+        public async Task<IDataResult<CancelOrderData>> CancelOrderByIdAsync(BinanceTrOptions options, long orderId, CancellationToken ct = default)
         {
             try
             {
@@ -395,7 +396,7 @@ namespace BinanceTR.Business.Concrete
                     { "orderId", orderId.ToString() }
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders/cancel", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders/cancel", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<CancelOrderData>(data);
@@ -409,7 +410,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<OpenOrderList>>> GetAllOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500)
+        public async Task<IDataResult<List<OpenOrderList>>> GetAllOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -419,7 +420,7 @@ namespace BinanceTR.Business.Concrete
                     { "limit", limit.ToString() }
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<List<OpenOrderList>>(data);
@@ -433,7 +434,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<OpenOrderList>>> GetAllOpenOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500)
+        public async Task<IDataResult<List<OpenOrderList>>> GetAllOpenOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -444,7 +445,7 @@ namespace BinanceTR.Business.Concrete
                     { "type", AllOrdersEnum.Open.GetDisplayName() },
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<List<OpenOrderList>>(data);
@@ -458,7 +459,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<OpenOrderList>>> GetAllOpenBuyOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500)
+        public async Task<IDataResult<List<OpenOrderList>>> GetAllOpenBuyOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -470,7 +471,7 @@ namespace BinanceTR.Business.Concrete
                     { "side", OrderSideEnum.BUY.GetDisplayName() },
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<List<OpenOrderList>>(data);
@@ -484,7 +485,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<OpenOrderList>>> GetAllOpenSellOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500)
+        public async Task<IDataResult<List<OpenOrderList>>> GetAllOpenSellOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -496,7 +497,7 @@ namespace BinanceTR.Business.Concrete
                     { "side", OrderSideEnum.SELL.GetDisplayName() },
                 };
 
-                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters).ConfigureAwait(false);
+                var result = await SendRequestAsync(HttpMethod.Get, "/open/v1/orders", options, parameters, ct).ConfigureAwait(false);
                 var data = CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data))
                     return new ErrorDataResult<List<OpenOrderList>>(data);
