@@ -10,10 +10,11 @@
     <PackageIcon>BinanceTR-Logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/emin-karadag/BinanceTr</RepositoryUrl>
     <PackageTags>binance, binancetr, bitcoin, kripto, kripto para, binance c#, c# binance, cryptocurrency</PackageTags>
-    <PackageReleaseNotes>BinanceTR dönüş mesajı güncellendi.</PackageReleaseNotes>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.2.0</AssemblyVersion>
-    <FileVersion>1.0.2.0</FileVersion>
+    <PackageReleaseNotes>- Order Cancel Order sipariş tipi eklendi.
+- Metotlara CancellationToken parametresi eklendi.</PackageReleaseNotes>
+    <Version>1.0.2</Version>
+    <AssemblyVersion>1.0.3.0</AssemblyVersion>
+    <FileVersion>1.0.3.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

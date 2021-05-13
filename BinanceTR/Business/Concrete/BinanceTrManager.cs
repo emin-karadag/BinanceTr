@@ -510,5 +510,33 @@ namespace BinanceTR.Business.Concrete
                 return new ErrorDataResult<List<OpenOrderList>>(ex.Message);
             }
         }
+
+        public async Task<IDataResult<OcoOrderData>> PostOcoOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal quantity, decimal price, decimal stopPrice, decimal stopLimitPrice, CancellationToken ct = default)
+        {
+            try
+            {
+                var parameters = new Dictionary<string, string>
+                {
+                    { "symbol", symbol },
+                    { "side", side.GetDisplayName() },
+                    { "quantity", quantity.ToString(CultureInfo.InvariantCulture) },
+                    { "price", price.ToString(CultureInfo.InvariantCulture) },
+                    { "stopPrice", stopPrice.ToString(CultureInfo.InvariantCulture) },
+                    { "stopLimitPrice", stopLimitPrice.ToString(CultureInfo.InvariantCulture) }
+                };
+
+                var result = await SendRequestAsync(HttpMethod.Post, "/open/v1/orders/oco", options, parameters, ct).ConfigureAwait(false);
+                var data = CheckResult(result);
+                if (!BinanceTrHelper.IsJson(data))
+                    return new ErrorDataResult<OcoOrderData>(data);
+
+                var model = JsonSerializer.Deserialize<OcoOrderModel>(result);
+                return new SuccessDataResult<OcoOrderData>(model.OcoOrderData, model.Msg, model.Code);
+            }
+            catch (Exception ex)
+            {
+                return new ErrorDataResult<OcoOrderData>(ex.Message);
+            }
+        }
     }
 }

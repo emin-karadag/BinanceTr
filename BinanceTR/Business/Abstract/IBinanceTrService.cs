@@ -169,5 +169,18 @@ namespace BinanceTR.Business.Abstract
         /// <param name="limit">Varsayılan: 500, Maksimum: 1000</param>
         /// <returns></returns>
         Task<IDataResult<List<OpenOrderList>>> GetAllOpenSellOrdersAsync(BinanceTrOptions options, string symbol, int limit = 500, CancellationToken ct = default);
+
+        /// <summary>
+        /// Bir sembole ait Emir Emiri Bozar (Order Cancel Order [OCO]) tipinde sipariş gönderin.
+        /// </summary>
+        /// <param name="options">Binance TR ApiKey ve SecretKey bilgileri</param>
+        /// <param name="symbol">Sipariş sembolü (Örnek: BTC_TRY)</param>
+        /// <param name="side">Al (Buy) veya Sat (Sell) tipinde sipariş tipi</param>
+        /// <param name="quantity">Sipariş adedi (Örnek: 0.000056M, 7, 1.6M)</param>
+        /// <param name="price">Hedef fiyat</param>
+        /// <param name="stopPrice">Zarar durdur fiyatı</param>
+        /// <param name="stopLimitPrice">Zarar durdur tetikleme fiyatı</param>
+        /// <returns></returns>
+        Task<IDataResult<OcoOrderData>> PostOcoOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal quantity, decimal price, decimal stopPrice, decimal stopLimitPrice, CancellationToken ct = default);
     }
 }
