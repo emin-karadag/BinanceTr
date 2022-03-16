@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace BinanceTR.Models.Common
+namespace BinanceTR.Models.Market
 {
     public class OrderBookModel : IBinanceTrModel
     {

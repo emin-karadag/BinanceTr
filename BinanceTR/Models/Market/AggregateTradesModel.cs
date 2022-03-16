@@ -2,7 +2,7 @@
 using BinanceTR.Core.Models;
 using System.Text.Json.Serialization;
 
-namespace BinanceTR.Models.Common
+namespace BinanceTR.Models.Market
 {
     public class AggregateTradesModel : IBinanceTrModel
     {
