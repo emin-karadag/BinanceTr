@@ -57,20 +57,20 @@ namespace BinanceTR.Models.Common
         public List<string> OrderTypes { get; set; }
 
         [JsonPropertyName("icebergEnable")]
-        [JsonConverter(typeof(StringToIntConvertor))]
-        public int IcebergEnable { get; set; }
+        [JsonConverter(typeof(StringToBoolConvertor))]
+        public bool IcebergEnable { get; set; }
 
         [JsonPropertyName("ocoEnable")]
-        [JsonConverter(typeof(StringToIntConvertor))]
-        public int OcoEnable { get; set; }
+        [JsonConverter(typeof(StringToBoolConvertor))]
+        public bool OcoEnable { get; set; }
 
         [JsonPropertyName("spotTradingEnable")]
-        [JsonConverter(typeof(StringToIntConvertor))]
-        public int SpotTradingEnable { get; set; }
+        [JsonConverter(typeof(StringToBoolConvertor))]
+        public bool SpotTradingEnable { get; set; }
 
         [JsonPropertyName("marginTradingEnable")]
-        [JsonConverter(typeof(StringToIntConvertor))]
-        public int MarginTradingEnable { get; set; }
+        [JsonConverter(typeof(StringToBoolConvertor))]
+        public bool MarginTradingEnable { get; set; }
 
         [JsonPropertyName("permissions")]
         public List<string> Permissions { get; set; }

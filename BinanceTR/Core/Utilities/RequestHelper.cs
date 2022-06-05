@@ -53,7 +53,7 @@ namespace BinanceTR.Core.Utilities
             }
         }
 
-        public static string CheckResult(string result)
+        public static (long code, string result) CheckResult(string result)
         {
             if (result != "[]" && result != "" && result.Contains("msg"))
             {
@@ -66,10 +66,10 @@ namespace BinanceTR.Core.Utilities
                 else
                 {
                     var error = JsonSerializer.Deserialize<ErrorModel>(result);
-                    return error.Code > 0 ? error.Msg : result;
+                    return error.Code > 0 ? (error.Code, error.Msg) : (0, result);
                 }
             }
-            return result;
+            return (0, result);
         }
     }
 }
