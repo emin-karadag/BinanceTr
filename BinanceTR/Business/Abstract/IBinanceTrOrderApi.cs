@@ -19,8 +19,9 @@ namespace BinanceTR.Business.Abstract
         /// <param name="side">Buy (Al) veya Sell(Sat)</param>
         /// <param name="origQuoteQty">Sipariş adedi (Örnek: 0.000056M, 7, 1.6M)</param>
         /// <param name="price">Sipariş fiyatı</param>
+        /// <param name="clientId">Özel sipariş ID</param>
         /// <returns></returns>
-        Task<IDataResult<LimitOrderData>> PostNewLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal price, CancellationToken ct = default);
+        Task<IDataResult<LimitOrderData>> PostNewLimitOrderAsync(BinanceTrOptions options, string symbol, OrderSideEnum side, decimal origQuoteQty, decimal price, string clientId = "", CancellationToken ct = default);
 
         /// <summary>
         /// Market fiyatından alış yapın.
@@ -29,7 +30,7 @@ namespace BinanceTR.Business.Abstract
         /// <param name="symbol">Sipariş sembolü (Örnek: BTC_TRY)</param>
         /// <param name="origQty">Sipariş adedi (Örnek: 10 TRY, 20 USDT)</param>
         /// <returns></returns>
-        Task<IDataResult<PostOrderModelData>> PostBuyMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQty, CancellationToken ct = default);
+        Task<IDataResult<PostOrderModelData>> PostBuyMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQty, string clientId = "", CancellationToken ct = default);
 
         /// <summary>
         /// Market fiyatından satış yapın.
@@ -38,7 +39,7 @@ namespace BinanceTR.Business.Abstract
         /// <param name="symbol">Sipariş sembolü (Örnek: BTC_TRY)</param>
         /// <param name="origQuoteQty">Sipariş adedi (Örnek: 0.000056M, 7, 1.6M)</param>
         /// <returns></returns>
-        Task<IDataResult<PostOrderModelData>> PostSellMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQuoteQty, CancellationToken ct = default);
+        Task<IDataResult<PostOrderModelData>> PostSellMarketOrderAsync(BinanceTrOptions options, string symbol, decimal origQuoteQty, string clientId = "", CancellationToken ct = default);
 
         /// <summary>
         /// Bir sembol için Stop-Limit emri girin.
@@ -59,6 +60,14 @@ namespace BinanceTR.Business.Abstract
         /// <param name="orderId">Detayını görüntülemek istediğiniz sipariş Id'si</param>
         /// <returns></returns>
         Task<IDataResult<OrderDetailData>> GetOrderByIdAsync(BinanceTrOptions options, long orderId, CancellationToken ct = default);
+
+        /// <summary>
+        /// Bir siparişin detayını görüntüleyin.
+        /// </summary>
+        /// <param name="options">Binance TR ApiKey ve SecretKey bilgileri</param>
+        /// <param name="clientId">Detayını görüntülemek istediğiniz sipariş Id'si</param>
+        /// <returns></returns>
+        Task<IDataResult<OrderDetailData>> GetOrderByClientIdAsync(BinanceTrOptions options, string clientId, CancellationToken ct = default);
 
         /// <summary>
         /// Bir siparişi iptal edin.

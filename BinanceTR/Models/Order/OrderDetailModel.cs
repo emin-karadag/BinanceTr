@@ -1,5 +1,6 @@
 ﻿using BinanceTR.Core.Converters;
 using BinanceTR.Core.Models;
+using System;
 using System.Text.Json.Serialization;
 
 namespace BinanceTR.Models.Order
@@ -77,8 +78,8 @@ namespace BinanceTR.Models.Order
         public int Status { get; set; }
 
         [JsonPropertyName("createTime")]
-        [JsonConverter(typeof(StringToLongConvertor))]
-        public long CreateTime { get; set; }
+        [JsonConverter(typeof(LongToDateTimeConvertor))]
+        public DateTime CreateTime { get; set; }
 
         [JsonPropertyName("clientId")]
         public string ClientId { get; set; }
