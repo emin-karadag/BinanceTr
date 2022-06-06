@@ -208,7 +208,7 @@ namespace BinanceTR.Business.Concrete
                     { "limit", limit.ToString() },
                     { "type", AllOrdersEnum.History.GetDisplayName() },
                 };
-
+    
                 return await GetAllOrdersAsync(options, parameters, ct);
             }
             catch (Exception ex)
@@ -287,7 +287,7 @@ namespace BinanceTR.Business.Concrete
                     { "type", AllOrdersEnum.Open.GetDisplayName() },
                     { "side", OrderSideEnum.BUY.GetDisplayName() },
                 };
-
+                
                 return await GetAllOrdersAsync(options, parameters, ct);
             }
             catch (Exception ex)
