@@ -1,7 +1,7 @@
 ![BinanceTr](https://github.com/emin-karadag/BinanceTr/blob/main/BinanceTR/BinanceTR-Logo.png?raw=true)
 
 ## BinanceTR C# API
-BinanceTR borsasında, alım-satım yapmak veya piyasa verilerini çekmek için geliştirilen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.
+BinanceTR borsasında, alım-satım yapmak veya piyasa verilerini çekmek için geliştirilen kullanımı kolay ve pratik bir .NET 6 - C# kütüphanesidir.
 
 
 Bu kütüphane sadece [**Binance TR**](https://www.trbinance.com/) borsasını destekler.
@@ -11,7 +11,7 @@ Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs
     MIT License
 
 ## Özellikleri
-- NuGet aracılığıyla yükleyebilme. ([BinanceTR](https://www.nuget.org/packages/BinanceTR/1.1.0))
+- NuGet aracılığıyla yükleyebilme. ([BinanceTR](https://www.nuget.org/packages/BinanceTR/1.2.0))
 - .NET 5 desteği. (Linux/MacOS uyumluluğu)
 - RestAPI, [Binance TR resmi dokümanının](https://www.trbinance.com/apidocs/) büyük çoğunluğunu destekler.
 	- Aktif olarak yeni özellikler eklenmeye devam edilecek.
@@ -25,16 +25,16 @@ Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs
 > Halka açık piyasa verilerine erişmek için Binance TR hesabı gerekli değildir!
 
 ## Kurulum
-Bu kütüphane NuGet'te mevcuttur, indirmek için çekinmeyin. ([https://www.nuget.org/packages/BinanceTR/1.1.0](https://www.nuget.org/packages/BinanceTR/1.1.0 "https://www.nuget.org/packages/BinanceTR/1.1.0"))
+Bu kütüphane NuGet'te mevcuttur, indirmek için çekinmeyin. ([https://www.nuget.org/packages/BinanceTR/1.2.0](https://www.nuget.org/packages/BinanceTR/1.2.0 "https://www.nuget.org/packages/BinanceTR/1.2.0"))
 
 **NuGet PM**
 ```
-Install-Package BinanceTR -Version 1.1.0
+Install-Package BinanceTR -Version 1.2.0
 ```
 
 **dotnet cli**
 ```
-dotnet add package BinanceTR --version 1.1.0
+dotnet add package BinanceTR --version 1.2.0
 ```
 ## Yol Haritası
 Önümüzdeki süreçte `BinanceTR` kütüphanesine yeni özelliklerin eklenmesi ve genişletilmesi için çalışmalar yapılacaktır. Aşağıdaki tabloda üzerinde çalıştığımız yeni özellikleri görebilirsiniz.
