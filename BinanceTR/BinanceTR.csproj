@@ -1,20 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Mehmet Emin KARADAĞ</Authors>
     <Company>Mehmet Emin KARADAĞ</Company>
-    <Description>BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirilen kullanımı kolay ve pratik bir .NET 5 - C# kütüphanesidir.</Description>
+    <Description>BinanceTR borsasında, çeşitli kripto para çiftlerinde alım-satım yapmak için geliştirilen kullanımı kolay ve pratik bir .NET 6 - C# kütüphanesidir.</Description>
     <Copyright>Tüm hakları saklıdır.</Copyright>
     <PackageProjectUrl>https://github.com/emin-karadag/BinanceTr</PackageProjectUrl>
     <PackageIcon>BinanceTR-Logo.png</PackageIcon>
     <RepositoryUrl>https://github.com/emin-karadag/BinanceTr</RepositoryUrl>
     <PackageTags>binance, binancetr, bitcoin, kripto, kripto para, binance c#, c# binance, cryptocurrency</PackageTags>
-    <PackageReleaseNotes>- API uç birimleri Account, Common, Market ve Order olmak üzere gruplara ayırıldı.
-- BinanceTR tarafından değiştirilen bazı API uç birimleri güncellendi.</PackageReleaseNotes>
-    <Version>1.1</Version>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <PackageReleaseNotes>- GetAllOrdersAsync() metodunun tüm sipariş geçmişini getirmesi sağlandı.</PackageReleaseNotes>
+    <Version>1.2.2</Version>
+    <AssemblyVersion>1.2.2.0</AssemblyVersion>
+    <FileVersion>1.2.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
