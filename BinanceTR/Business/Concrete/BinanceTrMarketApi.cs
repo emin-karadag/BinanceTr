@@ -27,8 +27,8 @@ namespace BinanceTR.Business.Concrete
                 };
                 var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/depth", parameters, true, ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<OrderBookData>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<OrderBookData>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<OrderBookModel>(result);
                 return new SuccessDataResult<OrderBookData>(model.Data, model.Msg, model.Code);
@@ -50,8 +50,8 @@ namespace BinanceTR.Business.Concrete
                 };
                 var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/trades", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<List<RecentTradesModel>>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<List<RecentTradesModel>>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<List<RecentTradesModel>>(result);
                 return new SuccessDataResult<List<RecentTradesModel>>(model);
@@ -80,8 +80,8 @@ namespace BinanceTR.Business.Concrete
 
                 var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/agg-trades", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<List<AggregateTradesModel>>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<List<AggregateTradesModel>>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<List<AggregateTradesModel>>(result);
                 return new SuccessDataResult<List<AggregateTradesModel>>(model);
@@ -111,10 +111,10 @@ namespace BinanceTR.Business.Concrete
 
                 var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/klines", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<string>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<string>(data.result, data.code);
 
-                return new SuccessDataResult<string>(data);
+                return new SuccessDataResult<string>(data.result);
             }
             catch (Exception ex)
             {
