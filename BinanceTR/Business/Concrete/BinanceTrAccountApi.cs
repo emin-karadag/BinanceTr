@@ -23,8 +23,8 @@ namespace BinanceTR.Business.Concrete
             {
                 var result = await RequestHelper.SendRequestAsync(HttpMethod.Get, $"{_prefix}/spot", options, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<List<AccountAsset>>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<List<AccountAsset>>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<AccountInformationModel>(result);
                 return new SuccessDataResult<List<AccountAsset>>(model.AccountData.AccountAssets, model.Msg, model.Code);
@@ -46,8 +46,8 @@ namespace BinanceTR.Business.Concrete
 
                 var result = await RequestHelper.SendRequestAsync(HttpMethod.Get, $"{_prefix}/spot/asset", options, parameters, ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<AssetInformationData>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<AssetInformationData>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<AssetInformationModel>(result);
                 return new SuccessDataResult<AssetInformationData>(model.Data, model.Msg, model.Code);

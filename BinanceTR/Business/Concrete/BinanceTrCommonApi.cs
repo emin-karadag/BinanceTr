@@ -21,7 +21,7 @@ namespace BinanceTR.Business.Concrete
             {
                 var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/time", null, true, ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                var model = JsonSerializer.Deserialize<TimeModel>(data);
+                var model = JsonSerializer.Deserialize<TimeModel>(data.result);
                 return new SuccessDataResult<long>(model.Timestamp, model.Msg, model.Code);
             }
             catch (Exception ex)
@@ -36,7 +36,7 @@ namespace BinanceTR.Business.Concrete
             {
                 var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/symbols", null, true, ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                var model = JsonSerializer.Deserialize<SymbolModel>(data);
+                var model = JsonSerializer.Deserialize<SymbolModel>(data.result);
                 return new SuccessDataResult<List<SymbolDataList>>(model.SymbolData.List, model.Msg, model.Code);
             }
             catch (Exception ex)
