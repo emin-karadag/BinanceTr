@@ -11,7 +11,7 @@ Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs
     MIT License
 
 ## Özellikleri
-- NuGet aracılığıyla yükleyebilme. ([BinanceTR](https://www.nuget.org/packages/BinanceTR/1.2.4))
+- NuGet aracılığıyla yükleyebilme. ([BinanceTR](https://www.nuget.org/packages/BinanceTR/1.2.5))
 - .NET 5 desteği. (Linux/MacOS uyumluluğu)
 - RestAPI, [Binance TR resmi dokümanının](https://www.trbinance.com/apidocs/) büyük çoğunluğunu destekler.
 	- Aktif olarak yeni özellikler eklenmeye devam edilecek.
@@ -25,16 +25,16 @@ Binance TR'nin herkese açık [API dokümanı](https://www.trbinance.com/apidocs
 > Halka açık piyasa verilerine erişmek için Binance TR hesabı gerekli değildir!
 
 ## Kurulum
-Bu kütüphane NuGet'te mevcuttur, indirmek için çekinmeyin. ([https://www.nuget.org/packages/BinanceTR/1.2.4](https://www.nuget.org/packages/BinanceTR/1.2.4 "https://www.nuget.org/packages/BinanceTR/1.2.4"))
+Bu kütüphane NuGet'te mevcuttur, indirmek için çekinmeyin. ([https://www.nuget.org/packages/BinanceTR/1.2.5](https://www.nuget.org/packages/BinanceTR/1.2.5 "https://www.nuget.org/packages/BinanceTR/1.2.5"))
 
 **NuGet PM**
 ```
-Install-Package BinanceTR -Version 1.2.4
+Install-Package BinanceTR -Version 1.2.5
 ```
 
 **dotnet cli**
 ```
-dotnet add package BinanceTR --version 1.2.4
+dotnet add package BinanceTR --version 1.2.5
 ```
 ## Yol Haritası
 Önümüzdeki süreçte `BinanceTR` kütüphanesine yeni özelliklerin eklenmesi ve genişletilmesi için çalışmalar yapılacaktır. Aşağıdaki tabloda üzerinde çalıştığımız yeni özellikleri görebilirsiniz.
