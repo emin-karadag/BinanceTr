@@ -6,28 +6,5 @@
         public IBinanceTrMarketApi Market { get; }
         public IBinanceTrAccountApi Account { get; }
         public IBinanceTrOrderApi Order { get; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BinanceTR.Core.Converters;
 using BinanceTR.Core.Models;
+using BinanceTR.Models.Enums;
 using System.Text.Json.Serialization;
 
 namespace BinanceTR.Models.Order
@@ -30,10 +31,12 @@ namespace BinanceTR.Models.Order
         public string Symbol { get; set; }
 
         [JsonPropertyName("type")]
-        public int Type { get; set; }
+        [JsonConverter(typeof(OrderTypeConvertor))]
+        public OrderTypeEnum Type { get; set; }
 
         [JsonPropertyName("side")]
-        public int Side { get; set; }
+        [JsonConverter(typeof(OrderSideConvertor))]
+        public OrderSideEnum Side { get; set; }
 
         [JsonPropertyName("price")]
         [JsonConverter(typeof(StringToDecimalConvertor))]

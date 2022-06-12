@@ -6,6 +6,10 @@
         {
         }
 
+        public ErrorDataResult(string message, long code) : base(default, false, message, code)
+        {
+        }
+
         public ErrorDataResult(T data) : base(data, false)
         {
         }
