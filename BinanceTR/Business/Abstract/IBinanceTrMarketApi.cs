@@ -45,6 +45,6 @@ namespace BinanceTR.Business.Abstract
         /// <param name="endTime">Bitiş süresi</param>
         /// <param name="limit">Varsayılan: 500, Maksimum: 1000</param>
         /// <returns></returns>
-        Task<IDataResult<string>> GetKlinesAsync(string symbol, KLineIntervalEnum interval, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default);
+        Task<IDataResult<List<KLinesModel>>> GetKlinesAsync(string symbol, KLineIntervalEnum interval, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default);
     }
 }

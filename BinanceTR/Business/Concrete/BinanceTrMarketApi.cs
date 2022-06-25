@@ -6,6 +6,7 @@ using BinanceTR.Models.Enums;
 using BinanceTR.Models.Market;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,8 +28,8 @@ namespace BinanceTR.Business.Concrete
                 };
                 var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/depth", parameters, true, ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<OrderBookData>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<OrderBookData>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<OrderBookModel>(result);
                 return new SuccessDataResult<OrderBookData>(model.Data, model.Msg, model.Code);
@@ -48,10 +49,10 @@ namespace BinanceTR.Business.Concrete
                     { "symbol", symbol },
                     { "limit", limit.ToString()}
                 };
-                var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/trades", parameters, ct: ct).ConfigureAwait(false);
+                var result = await RequestHelper.SendRequestWithoutAuth($"/trades", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<List<RecentTradesModel>>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<List<RecentTradesModel>>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<List<RecentTradesModel>>(result);
                 return new SuccessDataResult<List<RecentTradesModel>>(model);
@@ -78,10 +79,10 @@ namespace BinanceTR.Business.Concrete
                     parameters["endTime"] = BinanceTrHelper.GetTimestamp(endTime.Value).ToString();
                 }
 
-                var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/agg-trades", parameters, ct: ct).ConfigureAwait(false);
+                var result = await RequestHelper.SendRequestWithoutAuth($"/aggTrades", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<List<AggregateTradesModel>>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<List<AggregateTradesModel>>(data.result, data.code);
 
                 var model = JsonSerializer.Deserialize<List<AggregateTradesModel>>(result);
                 return new SuccessDataResult<List<AggregateTradesModel>>(model);
@@ -92,7 +93,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<string>> GetKlinesAsync(string symbol, KLineIntervalEnum interval, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default)
+        public async Task<IDataResult<List<KLinesModel>>> GetKlinesAsync(string symbol, KLineIntervalEnum interval, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -109,16 +110,38 @@ namespace BinanceTR.Business.Concrete
                     parameters["endTime"] = BinanceTrHelper.GetTimestamp(endTime.Value).ToString();
                 }
 
-                var result = await RequestHelper.SendRequestWithoutAuth($"{_prefix}/klines", parameters, ct: ct).ConfigureAwait(false);
+                var result = await RequestHelper.SendRequestWithoutAuth($"/klines", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
-                if (!BinanceTrHelper.IsJson(data))
-                    return new ErrorDataResult<string>(data);
+                if (!BinanceTrHelper.IsJson(data.result))
+                    return new ErrorDataResult<List<KLinesModel>>(data.result, data.code);
 
-                return new SuccessDataResult<string>(data);
+                var model = new List<KLinesModel>();
+                var jsonList = JsonSerializer.Deserialize<List<List<object>>>(result);
+
+                foreach (var jsonItem in jsonList)
+                {
+                    var item = new KLinesModel
+                    {
+                        OpenTime = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(jsonItem[0].ToString())).DateTime,
+                        Open = Convert.ToDecimal(jsonItem[1].ToString(), CultureInfo.InvariantCulture),
+                        High = Convert.ToDecimal(jsonItem[2].ToString(), CultureInfo.InvariantCulture),
+                        Low = Convert.ToDecimal(jsonItem[3].ToString(), CultureInfo.InvariantCulture),
+                        Close = Convert.ToDecimal(jsonItem[4].ToString(), CultureInfo.InvariantCulture),
+                        Volume = Convert.ToDecimal(jsonItem[5].ToString(), CultureInfo.InvariantCulture),
+                        CloseTime = DateTimeOffset.FromUnixTimeMilliseconds(Convert.ToInt64(jsonItem[6].ToString())).DateTime,
+                        QuoteAssetVolume = Convert.ToDecimal(jsonItem[7].ToString(), CultureInfo.InvariantCulture),
+                        NumberOfTrades = Convert.ToInt32(jsonItem[8].ToString()),
+                        TakerBuyBaseAssetVolume = Convert.ToDecimal(jsonItem[9].ToString(), CultureInfo.InvariantCulture),
+                        TakerBuyQuoteAssetVolume = Convert.ToDecimal(jsonItem[10].ToString(), CultureInfo.InvariantCulture),
+                    };
+                    model.Add(item);
+                }
+
+                return new SuccessDataResult<List<KLinesModel>>(model);
             }
             catch (Exception ex)
             {
-                return new ErrorDataResult<string>(ex.Message);
+                return new ErrorDataResult<List<KLinesModel>>(ex.Message);
             }
         }
     }

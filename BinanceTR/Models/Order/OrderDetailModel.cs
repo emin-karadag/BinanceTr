@@ -1,5 +1,7 @@
 ﻿using BinanceTR.Core.Converters;
 using BinanceTR.Core.Models;
+using BinanceTR.Models.Enums;
+using System;
 using System.Text.Json.Serialization;
 
 namespace BinanceTR.Models.Order
@@ -30,13 +32,16 @@ namespace BinanceTR.Models.Order
         public string Symbol { get; set; }
 
         [JsonPropertyName("symbolType")]
-        public int SymbolType { get; set; }
+        [JsonConverter(typeof(SymbolTypeConvertor))]
+        public SymbolTypeEnum SymbolType { get; set; }
 
         [JsonPropertyName("side")]
-        public int Side { get; set; }
+        [JsonConverter(typeof(OrderSideConvertor))]
+        public OrderSideEnum Side { get; set; }
 
         [JsonPropertyName("type")]
-        public int Type { get; set; }
+        [JsonConverter(typeof(OrderTypeConvertor))]
+        public OrderTypeEnum Type { get; set; }
 
         [JsonPropertyName("price")]
         [JsonConverter(typeof(StringToDecimalConvertor))]
@@ -74,11 +79,12 @@ namespace BinanceTR.Models.Order
         public decimal IcebergQty { get; set; }
 
         [JsonPropertyName("status")]
-        public int Status { get; set; }
+        [JsonConverter(typeof(OrderStatusConvertor))]
+        public OrderStatusEnum Status { get; set; }
 
         [JsonPropertyName("createTime")]
-        [JsonConverter(typeof(StringToLongConvertor))]
-        public long CreateTime { get; set; }
+        [JsonConverter(typeof(LongToDateTimeConvertor))]
+        public DateTime CreateTime { get; set; }
 
         [JsonPropertyName("clientId")]
         public string ClientId { get; set; }

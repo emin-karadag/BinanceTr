@@ -14,7 +14,7 @@ namespace BinanceTR.Core.Utilities
     {
         private const string VERSION = "v3";
         private const string BASE_URL = "https://www.trbinance.com";
-        private const string API_URL = "https://api.binance.cc/api/" + VERSION;
+        private const string API_URL = "https://api.binance.me/api/" + VERSION;
 
         public static long GetTimestamp()
         {
@@ -51,13 +51,14 @@ namespace BinanceTR.Core.Utilities
             return "?" + string.Join("&", queryStrings);
         }
 
-        public static Dictionary<string, string> BuildRequest(string apiSecret = null, Dictionary<string, string> parameters = null)
+        public static Dictionary<string, string> BuildRequest(string apiSecret = null, Dictionary<string, string> parameters = null, bool baseUrl = false)
         {
             if (parameters == null)
                 parameters = new Dictionary<string, string>();
 
             //(parameters ??= new Dictionary<string, string>()).Add("recvWindow", "60000");
-            parameters.Add("timestamp", GetTimestamp().ToString(CultureInfo.InvariantCulture));
+            if (baseUrl)
+                parameters.Add("timestamp", GetTimestamp().ToString(CultureInfo.InvariantCulture));
 
             if (!string.IsNullOrEmpty(apiSecret))
                 parameters.Add("signature", CreateHmac(apiSecret, parameters == null ? null : new FormUrlEncodedContent(parameters)));
