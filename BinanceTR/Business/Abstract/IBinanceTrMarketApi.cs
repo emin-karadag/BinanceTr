@@ -23,18 +23,20 @@ namespace BinanceTR.Business.Abstract
         /// </summary>
         /// <param name="symbol">Son işlemleri almak istediğiniz sembol. (Örnek: BTCTRY)</param>
         /// <param name="limit">Almak istediğiniz son işlem adedi. (Varsayılan: 500, Maksimum: 1000)</param>
+        /// <param name="fromId">ID</param>
         /// <returns></returns>
-        Task<IDataResult<List<RecentTradesModel>>> GetRecentTradesAsync(string symbol, int limit = 500, CancellationToken ct = default);
+        Task<IDataResult<List<RecentTradesModel>>> GetRecentTradesAsync(string symbol, long? fromId = null, int limit = 500, CancellationToken ct = default);
 
         /// <summary>
         /// Sıkıştırılmış/Toplu işlemleri alın. Aynı fiyattan gerçekleşen siparişlerin miktarı toplanmış olacaktır. startTime ve endTime gönderilmezse, en sonki toplu işlemler döndürülür.
         /// </summary>
         /// <param name="symbol">Toplu işlemleri almak istediğiniz sembol. (Örnek: BTCTRY)</param>
+        /// <param name="fromId">ID</param>
         /// <param name="startTime">Başlangıç tarihi</param>
         /// <param name="endTime">Bitiş tarihi</param>
         /// <param name="limit">Varsayılan: 500, Maksimum: 1000</param>
         /// <returns></returns>
-        Task<IDataResult<List<AggregateTradesModel>>> GetAggregateTradesAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default);
+        Task<IDataResult<List<AggregateTradesModel>>> GetAggregateTradesAsync(string symbol, long? fromId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default);
 
         /// <summary>
         /// Bir sembol için KLine bilgilerini alın. startTime ve endTime gönderilmezse, en son klineler döndürülür.

@@ -40,7 +40,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<RecentTradesModel>>> GetRecentTradesAsync(string symbol, int limit = 500, CancellationToken ct = default)
+        public async Task<IDataResult<List<RecentTradesModel>>> GetRecentTradesAsync(string symbol, long? fromId = null, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -49,6 +49,10 @@ namespace BinanceTR.Business.Concrete
                     { "symbol", symbol },
                     { "limit", limit.ToString()}
                 };
+
+                if (fromId is not null)
+                    parameters.Add("fromId", fromId.ToString());
+
                 var result = await RequestHelper.SendRequestWithoutAuth($"/trades", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
                 if (!BinanceTrHelper.IsJson(data.result))
@@ -63,7 +67,7 @@ namespace BinanceTR.Business.Concrete
             }
         }
 
-        public async Task<IDataResult<List<AggregateTradesModel>>> GetAggregateTradesAsync(string symbol, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default)
+        public async Task<IDataResult<List<AggregateTradesModel>>> GetAggregateTradesAsync(string symbol, long? fromId = null, DateTime? startTime = null, DateTime? endTime = null, int limit = 500, CancellationToken ct = default)
         {
             try
             {
@@ -78,6 +82,9 @@ namespace BinanceTR.Business.Concrete
                     parameters["startTime"] = BinanceTrHelper.GetTimestamp(startTime.Value).ToString();
                     parameters["endTime"] = BinanceTrHelper.GetTimestamp(endTime.Value).ToString();
                 }
+
+                if (fromId is not null)
+                    parameters.Add("fromId", fromId.ToString());
 
                 var result = await RequestHelper.SendRequestWithoutAuth($"/aggTrades", parameters, ct: ct).ConfigureAwait(false);
                 var data = RequestHelper.CheckResult(result);
