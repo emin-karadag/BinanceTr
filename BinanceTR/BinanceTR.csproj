@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageTags>binance, binancetr, bitcoin, kripto, kripto para, binance c#, c# binance, cryptocurrency</PackageTags>
+    <PackageReleaseNotes>2 yıl aradan sonra modern bir alt yapıda sıfırdan geliştirme yapıldı.</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/emin-karadag/BinanceTR</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>BinanceTR-Logo.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/emin-karadag/BinanceTR</PackageProjectUrl>
+    <Copyright>Tüm hakları saklıdır</Copyright>
+    <Description>BinanceTR kripto borsası için geliştirilmiş .NET kütüphanesidir.</Description>
+    <Authors>Mehmet Emin KARADAĞ</Authors>
+    <Title>BinanceTR</Title>
+    <Version>1.3.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\BinanceTR-Logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
